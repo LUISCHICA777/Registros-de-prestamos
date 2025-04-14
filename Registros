@@ -1,0 +1,35 @@
+class Registro {
+    private String nombre;
+    private String identificacion;
+    private String tituloLibro;
+    private String autorLibro;
+
+    public Registro(String nombre, String identificacion, String tituloLibro, String autorLibro) {
+        this.nombre = nombre;
+        this.identificacion = identificacion;
+        this.tituloLibro = tituloLibro;
+        this.autorLibro = autorLibro;
+    }
+
+    // Métodos getter y setter
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public String getTituloLibro() {
+        return tituloLibro;
+    }
+
+    public String getAutorLibro() {
+        return autorLibro;
+    }
+
+    @Override
+    public String toString() {
+        return "Nombre: " + nombre + ", Identificación: " + identificacion +
+               ", Título del libro: " + tituloLibro + ", Autor del libro: " + autorLibro;
+    }
