@@ -1,0 +1,102 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+        
+
+public class VentanaPrincipal extends JFrame {
+private JTextField txtNombre, txtIdentificacion, txtTituloLibro, txtAutorLibro;
+    private ArrayList<Registro> registros; // Lista para almacenar los registros
+
+    public VentanaPrincipal() {
+        registros = new ArrayList<>(); // Inicializar la lista de registros
+
+        // Configuración de la ventana principal
+        setTitle("Registro de Préstamos");
+        setSize(500, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(null);
+
+        // Campos de entrada y etiquetas
+        JLabel lblNombre = new JLabel("Nombre:");
+        lblNombre.setBounds(20, 20, 100, 30);
+        txtNombre = new JTextField();
+        txtNombre.setBounds(120, 20, 200, 30);
+
+        JLabel lblIdentificacion = new JLabel("Identificación:");
+        lblIdentificacion.setBounds(20, 60, 100, 30);
+        txtIdentificacion = new JTextField();
+        txtIdentificacion.setBounds(120, 60, 200, 30);
+
+        JLabel lblTituloLibro = new JLabel("Título del libro:");
+        lblTituloLibro.setBounds(20, 100, 100, 30);
+        txtTituloLibro = new JTextField();
+        txtTituloLibro.setBounds(120, 100, 200, 30);
+
+        JLabel lblAutorLibro = new JLabel("Autor del libro:");
+        lblAutorLibro.setBounds(20, 140, 100, 30);
+        txtAutorLibro = new JTextField();
+        txtAutorLibro.setBounds(120, 140, 200, 30);
+
+        // Botones
+        JButton btnGuardar = new JButton("Guardar");
+        btnGuardar.setBounds(350, 20, 100, 30);
+
+        JButton btnVerRegistros = new JButton("Ver Registros");
+        btnVerRegistros.setBounds(350, 60, 120, 30);
+
+        // Evento para guardar un registro
+        btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String nombre = txtNombre.getText();
+                String identificacion = txtIdentificacion.getText();
+                String tituloLibro = txtTituloLibro.getText();
+                String autorLibro = txtAutorLibro.getText();
+
+                if (!nombre.isEmpty() && !identificacion.isEmpty() && !tituloLibro.isEmpty() && !autorLibro.isEmpty()) {
+                    registros.add(new Registro(nombre, identificacion, tituloLibro, autorLibro));
+                    limpiarCampos();
+                    JOptionPane.showMessageDialog(null, "Registro guardado exitosamente.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Por favor, complete todos los campos.");
+                }
+            }
+        });
+
+        // Evento para abrir la ventana de registros
+        btnVerRegistros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                VentanaRegistros ventanaRegistros = new VentanaRegistros(registros);
+                ventanaRegistros.setVisible(true);
+            }
+        });
+
+        // Añadir componentes a la ventana
+        add(lblNombre);
+        add(txtNombre);
+        add(lblIdentificacion);
+        add(txtIdentificacion);
+        add(lblTituloLibro);
+        add(txtTituloLibro);
+        add(lblAutorLibro);
+        add(txtAutorLibro);
+        add(btnGuardar);
+        add(btnVerRegistros);
+    }
+
+    // Método para limpiar los campos después de guardar
+    private void limpiarCampos() {
+        txtNombre.setText("");
+        txtIdentificacion.setText("");
+        txtTituloLibro.setText("");
+        txtAutorLibro.setText("");
+    }
+
+    public static void main(String[] args) {
+        VentanaPrincipal ventana = new VentanaPrincipal();
+        ventana.setVisible(true);
+    }
+}
