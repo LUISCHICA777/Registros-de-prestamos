@@ -1,0 +1,83 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+public class VentanaRegistros extends JFrame {
+
+    private JTextArea areaRegistros;
+    private JTextField txtIdentificacion;
+    private ArrayList<Registro> registros;
+
+    public VentanaRegistros(ArrayList<Registro> registros) {
+        this.registros = registros; // Recibe los registros de la ventana principal
+
+        // Configuración de la ventana
+        setTitle("Lista de Registros");
+        setSize(500, 400);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(null);
+
+        // Área para mostrar los registros
+        areaRegistros = new JTextArea();
+        areaRegistros.setBounds(20, 20, 440, 200);
+        areaRegistros.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(areaRegistros);
+        scrollPane.setBounds(20, 20, 440, 200);
+        add(scrollPane);
+
+        // Mostrar los registros al cargar la ventana
+        actualizarListaRegistros();
+
+        // Campo para ingresar la identificación
+        JLabel lblIdentificacion = new JLabel("Identificación:");
+        lblIdentificacion.setBounds(20, 230, 100, 30);
+        txtIdentificacion = new JTextField();
+        txtIdentificacion.setBounds(120, 230, 150, 30);
+
+        // Botón para eliminar un registro
+        JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar.setBounds(300, 230, 100, 30);
+
+        // Evento para eliminar un registro
+        btnEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String identificacion = txtIdentificacion.getText();
+                Registro registro = buscarRegistro(identificacion);
+
+                if (registro != null) {
+                    registros.remove(registro);
+                    actualizarListaRegistros();
+                    JOptionPane.showMessageDialog(null, "Registro eliminado correctamente.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró un registro con esa identificación.");
+                }
+            }
+        });
+
+        // Añadir componentes a la ventana
+        add(lblIdentificacion);
+        add(txtIdentificacion);
+        add(btnEliminar);
+    }
+
+    // Método para buscar un registro por identificación
+    private Registro buscarRegistro(String identificacion) {
+        for (Registro registro : registros) {
+            if (registro.getIdentificacion().equals(identificacion)) {
+                return registro;
+            }
+        }
+        return null;
+    }
+
+    // Método para actualizar la lista de registros
+    private void actualizarListaRegistros() {
+        areaRegistros.setText(""); // Limpiar el área de texto
+        for (Registro registro : registros) {
+            areaRegistros.append(registro.toString() + "\n");
+        }
+    }
+}
